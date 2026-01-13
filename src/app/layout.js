@@ -48,9 +48,8 @@ export default function RootLayout({ children }) {
         )}
 
         {/* UserHeader sirf dashboard par */}
-        {pathname === "general-dashboard" && (
+        {pathname === "/general-dashboard" && (
           <header data-aos="fade-down">
-            
             <UserHeader />
           </header>
         )}
@@ -59,7 +58,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
 
-        <footer className="mt-auto" data-aos="fade-up">
+        <footer className="mt-auto w-full" data-aos="fade-up">
           <Footer />
         </footer>
       </body>

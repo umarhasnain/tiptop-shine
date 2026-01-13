@@ -27,7 +27,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#eef2ff] to-white">
-      <UserHeader />
+      {/* <UserHeader /> */}
 
       <section className="py-8 px-4 md:px-6 lg:px-8">
         <div className="max-w-[1400px] mx-auto">
