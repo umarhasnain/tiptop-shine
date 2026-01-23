@@ -7,6 +7,7 @@ import Health from "@/components/Health";
 import Wedding from "@/components/Wedding";
 import Tiptop from "@/components/Tiptop";
 import Customer from "@/components/Customer";
+import ServicesGrid from "@/components/ServicesGrid";
 
 
 export default function Home() {
@@ -16,9 +17,10 @@ export default function Home() {
   {/* <Header /> */}
   <HeroSection/>
   <DiscoverSection/>
-   <GardenSection/>
+   {/* <GardenSection/>
    <Health/>
-   <Wedding/>
+   <Wedding/> */}
+   <ServicesGrid/>
    <Tiptop/>
    {/* <Customer/> */}
 

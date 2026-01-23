@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const LeadSchema = new mongoose.Schema(
   {
+    serviceName: {
+      type: String,
+      required: true,
+    },
+
     miles: String,
     postcode: String,
 

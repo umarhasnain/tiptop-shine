@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const ProfessionalSchema = new mongoose.Schema(
   {
+    serviceName: {
+      type: String,
+      required: true,
+    },
     miles: String,
     postcode: String,
     name: String,

@@ -1,5 +1,8 @@
+
+
+
 // 'use client';
-// import { useEffect } from 'react';
+// import { useEffect, useState } from 'react';
 // import Header from '@/components/Header';
 // import Image from 'next/image';
 // import Link from 'next/link';
@@ -9,7 +12,37 @@
 // // React icons
 // import { FaSearch, FaRocket, FaTrophy } from 'react-icons/fa';
 
+// /* ================= SERVICES LIST ================= */
+// const servicesList = [
+//   'House Cleaning',
+//   'Office Cleaning',
+//   'Deep Cleaning',
+//   'Graphic Design',
+//   'Web Design',
+//   'Web Development',
+//   'SEO Services',
+//   'Digital Marketing',
+//   'Book Keeping',
+//   'Accounting',
+//   'Life Coaching',
+//   'Personal Trainer',
+//   'Business Coach',
+//   'Gardening',
+//   'Landscaping',
+//   'General Builder',
+//   'Plumber',
+//   'Electrician',
+//   'Painter & Decorator',
+//   'Photography',
+//   'Wedding Photography',
+//   'Videography',
+//   'Video Editing',
+// ];
+
 // export default function HomePage() {
+//   const [query, setQuery] = useState('');
+//   const [showSuggestions, setShowSuggestions] = useState(false);
+
 //   useEffect(() => {
 //     AOS.init({
 //       duration: 1000,
@@ -17,6 +50,10 @@
 //       once: false,
 //     });
 //   }, []);
+
+//   const filteredServices = servicesList.filter((service) =>
+//     service.toLowerCase().includes(query.toLowerCase())
+//   );
 
 //   const features = [
 //     {
@@ -57,68 +94,69 @@
 //   return (
 //     <div className="bg-white text-gray-900">
 //       {/* === HERO SECTION === */}
-//       <section
-//         className="flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 gap-10"
-//         data-aos="fade-up"
-//       >
+//       <section className="flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 gap-10">
 //         {/* Left Side */}
 //         <div className="md:w-1/2 space-y-5 text-center md:text-left">
-//           <h1
-//             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black leading-tight"
-//             data-aos="fade-right"
-//           >
-//             Skyrocket Your Success <br className="hidden sm:block" />
+//           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black leading-tight">
+//             Skyrocket Your Success <br />
 //             <span className="text-blue-600">Clients Are Waiting!</span>
 //           </h1>
-//           <p
-//             className="text-gray-600 text-base sm:text-lg"
-//             data-aos="fade-right"
-//             data-aos-delay="200"
-//           >
-//             Thousands of eager local and remote clients are ready to hire. It’s
-//             your time to shine.
+
+//           <p className="text-gray-600 text-base sm:text-lg">
+//             Thousands of eager local and remote clients are ready to hire.
 //           </p>
 
-//           {/* Search Bar */}
-//           <div
-//             className="flex w-full max-w-md mx-auto md:mx-0 shadow-sm"
-//             data-aos="zoom-in"
-//             data-aos-delay="400"
-//           >
-//             <input
-//               type="text"
-//               placeholder="What service do you provide?"
-//               className="flex-1 px-4 py-3 border border-gray-300 text-sm rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-//             />
-//             <Link href="/onboarding">
-//               <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-3 rounded-r-md transition">
-//                 Get Started
-//               </button>
-//             </Link>
+//           {/* ===== SEARCH WITH AUTOCOMPLETE ===== */}
+//           <div className="relative w-full max-w-md mx-auto md:mx-0">
+//             <div className="flex shadow-sm">
+//               <input
+//                 type="text"
+//                 value={query}
+//                 onChange={(e) => {
+//                   setQuery(e.target.value);
+//                   setShowSuggestions(true);
+//                 }}
+//                 onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+//                 placeholder="What service do you provide?"
+//                 className="flex-1 px-4 py-3 border border-gray-300 text-sm rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               />
+
+//               <Link href="/onboarding">
+//                 <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-3 rounded-r-md transition">
+//                   Get Started
+//                 </button>
+//               </Link>
+//             </div>
+
+//             {/* Suggestions */}
+//             {showSuggestions && query && (
+//               <div className="absolute z-50 w-full bg-white border rounded-md mt-1 shadow-lg max-h-60 overflow-y-auto">
+//                 {filteredServices.length > 0 ? (
+//                   filteredServices.map((item, i) => (
+//                     <div
+//                       key={i}
+//                       onClick={() => {
+//                         setQuery(item);
+//                         setShowSuggestions(false);
+//                       }}
+//                       className="px-4 py-2 text-sm cursor-pointer hover:bg-blue-50"
+//                     >
+//                       {item}
+//                     </div>
+//                   ))
+//                 ) : (
+//                   <div className="px-4 py-2 text-sm text-gray-500">
+//                     No services found
+//                   </div>
+//                 )}
+//               </div>
+//             )}
 //           </div>
 
 //           {/* Popular Services */}
-//           <div
-//             className="grid grid-cols-2 gap-y-1 pt-3 text-lg text-gray-800"
-//             data-aos="fade-up"
-//             data-aos-delay="600"
-//           >
-//             {[
-//               'House Cleaning',
-//               'Graphic Design',
-//               'Life Coaching',
-//               'Personal Trainer',
-//               'Web Design',
-//               'Book Keeping',
-//               'Web Development',
-//               'General Builder',
-//               'General Photography',
-//               'Gardening',
-//             ].map((service, i) => (
-//               <p
-//                 key={i}
-//                 className="hover:text-blue-600 cursor-pointer transition"
-//               >
+//           <div className="grid grid-cols-2 gap-y-1 pt-3 text-lg text-gray-800">
+//             {servicesList.slice(0, 10).map((service, i) => (
+//               <p key={i} className="hover:text-blue-600 cursor-pointer transition">
 //                 🔹 {service}
 //               </p>
 //             ))}
@@ -126,12 +164,8 @@
 //         </div>
 
 //         {/* Right Side */}
-//         <div
-//           className="md:w-1/2 flex justify-center"
-//           data-aos="fade-left"
-//           data-aos-delay="200"
-//         >
-//           <div className="rounded-xl shadow-2xl overflow-hidden w-[350px] hover:scale-105 transition border border-blue-100 bg-gradient-to-t from-blue-50 to-white">
+//         <div className="md:w-1/2 flex justify-center">
+//           <div className="rounded-xl shadow-2xl overflow-hidden w-[350px] border border-blue-100 bg-gradient-to-t from-blue-50 to-white">
 //             <Image
 //               src="/images/join-professional-img.jpg"
 //               alt="Highly Rated"
@@ -149,63 +183,39 @@
 //         </div>
 //       </section>
 
-//     {/* === FEATURES SECTION === */}
-// <section
-//   className="py-20 px-6 md:px-16 bg-gradient-to-b from-gray-50 via-white to-blue-50"
-//   data-aos="fade-up"
-// >
-//   <div
-//     className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10"
-//     data-aos="zoom-in-up"
-//   >
-//     {features.map((card, i) => (
-//       <div
-//         key={i}
-//         className={`relative group flex flex-col items-center justify-between h-full p-8 rounded-3xl shadow-xl border border-transparent 
-//         hover:border-blue-300 transition-all duration-500 bg-gradient-to-br ${card.gradient} 
-//         hover:scale-[1.03] hover:shadow-2xl`}
-//         data-aos="fade-up"
-//         data-aos-delay={`${i * 200}`}
-//       >
-//         {/* Floating Icon */}
-//         <div className="absolute -top-8 bg-white shadow-lg rounded-full p-2 px-4 group-hover:scale-110 transition-transform duration-300">
-//           {card.icon}
+//       {/* === FEATURES SECTION === */}
+//       <section className="py-20 px-6 md:px-16 bg-gradient-to-b from-gray-50 via-white to-blue-50">
+//         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+//           {features.map((card, i) => (
+//             <div
+//               key={i}
+//               className={`relative group flex flex-col items-center justify-between h-full p-8 rounded-3xl shadow-xl 
+//               hover:scale-[1.03] transition bg-gradient-to-br ${card.gradient}`}
+//             >
+//               <div className="absolute -top-8 bg-white shadow-lg rounded-full p-3">
+//                 {card.icon}
+//               </div>
+
+//               <div className="mt-10 text-center">
+//                 <h3 className="font-extrabold text-lg mb-3">{card.title}</h3>
+//                 <ul className="space-y-2 text-sm">
+//                   {card.points.map((p, idx) => (
+//                     <li key={idx}>• {p}</li>
+//                   ))}
+//                 </ul>
+//               </div>
+
+//               <button className="mt-8 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">
+//                 {card.btn}
+//               </button>
+//             </div>
+//           ))}
 //         </div>
+//       </section>
 
-//         {/* Card Content */}
-//         <div className="mt-10 text-center flex-1 flex flex-col justify-start">
-//           <h3 className="font-extrabold text-gray-900 text-lg sm:text-xl mb-3">
-//             {card.title}
-//           </h3>
-//           <ul className="text-gray-700 space-y-2 mb-8 text-sm sm:text-base leading-relaxed">
-//             {card.points.map((p, idx) => (
-//               <li key={idx} className="flex justify-center items-center gap-2">
-//                 <span className="text-blue-500">•</span>
-//                 {p}
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
+      
 
-//         {/* Bottom Fixed Button */}
-//         <div className="mt-6 w-full flex justify-center">
-//           <button
-//             className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-sm font-semibold 
-//             px-6 py-2.5  rounded-full shadow-md hover:bg-blue-700 transition-all duration-300 hover:shadow-lg 
-//             group-hover:translate-y-[-4px]"
-//           >
-//             {card.btn}
-//           </button>
-//         </div>
-
-//         {/* Subtle Glow Animation */}
-//         <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-500"></div>
-//       </div>
-//     ))}
-//   </div>
-// </section>
-
-//       {/* === STATS SECTION === */}
+//         {/* === STATS SECTION === */}
 //       <section className="bg-white py-12 px-6 md:px-16 flex flex-col md:flex-row items-center justify-between gap-12">
 //         <div
 //           className="md:w-1/2 space-y-5 text-center md:text-left"
@@ -306,34 +316,35 @@
 //         </div>
 //       </section>
 
-//       {/* === LOGOS SECTION === */}
-//       <section
-//         className="bg-white py-10"
-//         data-aos="fade-up"
-//         data-aos-delay="200"
-//       >
-//         <div className="max-w-5xl mx-auto px-6 text-center">
-//           <h2 className="text-lg sm:text-xl font-bold text-black mb-6">
-//             Larger businesses use <br className="md:hidden" /> our platform too
-//           </h2>
-//           <div className="flex items-center justify-center flex-wrap gap-x-10 gap-y-6">
-//             {['Air(1).png', 'Air(2).png', 'Air(3).png', 'Air(4).png'].map(
-//               (logo, i) => (
-//                 <Image
-//                   key={i}
-//                   src={`/images/${logo}`}
-//                   alt="logo"
-//                   width={100}
-//                   height={45}
-//                   className="object-contain grayscale opacity-80 hover:opacity-100 transition"
-//                   data-aos="zoom-in"
-//                   data-aos-delay={`${i * 150}`}
-//                 />
-//               )
-//             )}
-//           </div>
-//         </div>
-//       </section>
+//          {/* === LOGOS SECTION === */}
+//        <section
+//          className="bg-white py-10"
+//          data-aos="fade-up"
+//          data-aos-delay="200"
+//        >
+//          <div className="max-w-5xl mx-auto px-6 text-center">
+//            <h2 className="text-lg sm:text-xl font-bold text-black mb-6">
+//              Larger businesses use <br className="md:hidden" /> our platform too
+//            </h2>
+//            <div className="flex items-center justify-center flex-wrap gap-x-10 gap-y-6">
+//              {['Air(1).png', 'Air(2).png', 'Air(3).png', 'Air(4).png'].map(
+//                (logo, i) => (
+//                  <Image
+//                    key={i}
+//                    src={`/images/${logo}`}
+//                    alt="logo"
+//                    width={100}
+//                    height={45}
+//                    className="object-contain grayscale opacity-80 hover:opacity-100 transition"
+//                    data-aos="zoom-in"
+//                    data-aos-delay={`${i * 150}`}
+//                  />
+//                )
+//              )}
+//            </div>
+//          </div>
+//        </section>
+
 //     </div>
 //   );
 // }
@@ -341,10 +352,10 @@
 
 
 'use client';
+
 import { useEffect, useState } from 'react';
-import Header from '@/components/Header';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -379,8 +390,11 @@ const servicesList = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
+
   const [query, setQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     AOS.init({
@@ -389,6 +403,31 @@ export default function HomePage() {
       once: false,
     });
   }, []);
+
+  /* ========= SAVE SERVICE ========= */
+  const saveServiceToLocal = (service) => {
+    if (!service) return;
+
+    localStorage.setItem(
+      'selectedService',
+      JSON.stringify({
+        name: service,
+        savedAt: Date.now(),
+      })
+    );
+  };
+
+  /* ========= GET STARTED HANDLER ========= */
+  const handleGetStarted = () => {
+    if (!query.trim()) {
+      setError('Please select a service to continue');
+      return;
+    }
+
+    setError('');
+    saveServiceToLocal(query);
+    router.push('/onboarding');
+  };
 
   const filteredServices = servicesList.filter((service) =>
     service.toLowerCase().includes(query.toLowerCase())
@@ -403,7 +442,6 @@ export default function HomePage() {
         'Preview every lead before acting',
         'Get real-time lead alerts',
       ],
-      btn: 'How It Works',
       gradient: 'from-blue-500/10 to-blue-100/30',
     },
     {
@@ -414,7 +452,6 @@ export default function HomePage() {
         'Transparent, no hidden fees',
         'Guaranteed leads or next one free',
       ],
-      btn: 'See Pricing Plans',
       gradient: 'from-purple-500/10 to-purple-100/30',
     },
     {
@@ -425,7 +462,6 @@ export default function HomePage() {
         'Instantly access contact info',
         'Call/message directly & close',
       ],
-      btn: 'See A Sample Lead',
       gradient: 'from-yellow-500/10 to-yellow-100/30',
     },
   ];
@@ -434,18 +470,18 @@ export default function HomePage() {
     <div className="bg-white text-gray-900">
       {/* === HERO SECTION === */}
       <section className="flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 gap-10">
-        {/* Left Side */}
+        {/* Left */}
         <div className="md:w-1/2 space-y-5 text-center md:text-left">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
             Skyrocket Your Success <br />
             <span className="text-blue-600">Clients Are Waiting!</span>
           </h1>
 
-          <p className="text-gray-600 text-base sm:text-lg">
+          <p className="text-gray-600">
             Thousands of eager local and remote clients are ready to hire.
           </p>
 
-          {/* ===== SEARCH WITH AUTOCOMPLETE ===== */}
+          {/* ===== SEARCH ===== */}
           <div className="relative w-full max-w-md mx-auto md:mx-0">
             <div className="flex shadow-sm">
               <input
@@ -454,18 +490,33 @@ export default function HomePage() {
                 onChange={(e) => {
                   setQuery(e.target.value);
                   setShowSuggestions(true);
+                  setError('');
                 }}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                onBlur={() =>
+                  setTimeout(() => setShowSuggestions(false), 150)
+                }
                 placeholder="What service do you provide?"
-                className="flex-1 px-4 py-3 border border-gray-300 text-sm rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-4 py-3 border rounded-l-md focus:ring-2 focus:ring-blue-500 outline-none"
               />
 
-              <Link href="/onboarding">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-3 rounded-r-md transition">
-                  Get Started
-                </button>
-              </Link>
+              <button
+                onClick={handleGetStarted}
+                disabled={!query.trim()}
+                className={`px-5 py-3 rounded-r-md text-white transition
+                  ${
+                    query.trim()
+                      ? 'bg-blue-600 hover:bg-blue-700'
+                      : 'bg-gray-400 cursor-not-allowed'
+                  }`}
+              >
+                Get Started
+              </button>
             </div>
+
+            {/* ERROR MESSAGE */}
+            {error && (
+              <p className="text-red-500 text-xs mt-1">{error}</p>
+            )}
 
             {/* Suggestions */}
             {showSuggestions && query && (
@@ -476,7 +527,9 @@ export default function HomePage() {
                       key={i}
                       onClick={() => {
                         setQuery(item);
+                        saveServiceToLocal(item);
                         setShowSuggestions(false);
+                        setError('');
                       }}
                       className="px-4 py-2 text-sm cursor-pointer hover:bg-blue-50"
                     >
@@ -493,67 +546,58 @@ export default function HomePage() {
           </div>
 
           {/* Popular Services */}
-          <div className="grid grid-cols-2 gap-y-1 pt-3 text-lg text-gray-800">
+          <div className="grid grid-cols-2 gap-y-1 pt-3">
             {servicesList.slice(0, 10).map((service, i) => (
-              <p key={i} className="hover:text-blue-600 cursor-pointer transition">
+              <p
+                key={i}
+                onClick={() => {
+                  setQuery(service);
+                  saveServiceToLocal(service);
+                  setError('');
+                }}
+                className="cursor-pointer hover:text-blue-600"
+              >
                 🔹 {service}
               </p>
             ))}
           </div>
         </div>
 
-        {/* Right Side */}
+        {/* Right */}
         <div className="md:w-1/2 flex justify-center">
-          <div className="rounded-xl shadow-2xl overflow-hidden w-[350px] border border-blue-100 bg-gradient-to-t from-blue-50 to-white">
+          <div className="rounded-xl shadow-2xl overflow-hidden w-[350px] bg-white">
             <Image
               src="/images/join-professional-img.jpg"
-              alt="Highly Rated"
+              alt="Hero"
               width={400}
               height={500}
               className="object-cover w-full h-[500px]"
             />
-            <div className="bg-white p-5 text-center">
-              <h4 className="text-gray-900 text-base font-semibold mb-1">
-                Sleek Finish Is Highly Rated
-              </h4>
-              <div className="text-yellow-400 text-xl">★★★★★</div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* === FEATURES SECTION === */}
-      <section className="py-20 px-6 md:px-16 bg-gradient-to-b from-gray-50 via-white to-blue-50">
+      {/* === FEATURES === */}
+      <section className="py-20 px-6 md:px-16 bg-gray-50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {features.map((card, i) => (
             <div
               key={i}
-              className={`relative group flex flex-col items-center justify-between h-full p-8 rounded-3xl shadow-xl 
-              hover:scale-[1.03] transition bg-gradient-to-br ${card.gradient}`}
+              className={`p-8 rounded-3xl shadow-xl bg-gradient-to-br ${card.gradient} text-center`}
             >
-              <div className="absolute -top-8 bg-white shadow-lg rounded-full p-3">
-                {card.icon}
-              </div>
-
-              <div className="mt-10 text-center">
-                <h3 className="font-extrabold text-lg mb-3">{card.title}</h3>
-                <ul className="space-y-2 text-sm">
-                  {card.points.map((p, idx) => (
-                    <li key={idx}>• {p}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <button className="mt-8 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">
-                {card.btn}
-              </button>
+              {card.icon}
+              <h3 className="font-bold mb-3">{card.title}</h3>
+              <ul className="text-sm space-y-1">
+                {card.points.map((p, idx) => (
+                  <li key={idx}>• {p}</li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
       </section>
 
-      
-
+        
         {/* === STATS SECTION === */}
       <section className="bg-white py-12 px-6 md:px-16 flex flex-col md:flex-row items-center justify-between gap-12">
         <div
@@ -683,7 +727,6 @@ export default function HomePage() {
            </div>
          </div>
        </section>
-
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { usePathname } from 'next/navigation';
+import { SessionProvider } from "next-auth/react";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
+        <SessionProvider> 
         {/* Agar current page in pages me nahi hai to hi show karo Header */}
         {!hideHeaderOn.includes(pathname) && (
           <header data-aos="fade-down">
@@ -61,6 +63,7 @@ export default function RootLayout({ children }) {
         <footer className="mt-auto w-full" data-aos="fade-up">
           <Footer />
         </footer>
+        </SessionProvider>
       </body>
     </html>
   );
