@@ -5,6 +5,7 @@ import UserHeader from "@/components/UserHeader";
 import Head from "next/head";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Link from 'next/link';
 
 export default function Home() {
   // 🔹 Initialize AOS once
@@ -132,9 +133,12 @@ export default function Home() {
           <p className="text-gray-800 text-lg mb-3 font-medium">
             Need help finding what you need?
           </p>
+          <Link href='/helpdashboard/request-form' >
+          
           <button className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition">
             Submit a request
           </button>
+          </Link>
         </div>
       </div>
     </>

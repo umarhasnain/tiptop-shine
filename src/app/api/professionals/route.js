@@ -5,16 +5,25 @@ export async function GET() {
   try {
     await connectDB();
 
-    const professionals = await Professional.find().sort({ createdAt: -1 });
+    // ⚠️ Abhi demo ke liye first professional
+    // baad mein NextAuth se logged-in user laoge
+    const professional = await Professional.findOne();
 
-    return new Response(
-      JSON.stringify({ success: true, professionals }),
+    if (!professional) {
+      return Response.json(
+        { professional: null },
+        { status: 200 }
+      );
+    }
+
+    return Response.json(
+      { professional }, // 👈 IMPORTANT: object ke andar
       { status: 200 }
     );
-  } catch (err) {
-    console.error(err);
-    return new Response(
-      JSON.stringify({ success: false, professionals: [] }),
+  } catch (error) {
+    console.error("API /professionals error:", error);
+    return Response.json(
+      { error: "Failed to fetch professional" },
       { status: 500 }
     );
   }

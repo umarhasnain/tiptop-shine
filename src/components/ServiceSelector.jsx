@@ -2,23 +2,26 @@
 
 import servicesList from "@/lib/servicesList";
 
-export default function ServiceSelector({ user }) {
+export default function ServiceSelector({ professional }) {
+  const selectedServices = professional.serviceName || [];
+
   const toggleService = async (service, active) => {
     await fetch("/api/services", {
       method: active ? "DELETE" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userId: user._id,
+        userId: professional._id,
         service,
       }),
     });
+
     location.reload();
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {servicesList.map((service) => {
-        const active = user.selectedServices.includes(service);
+        const active = selectedServices.includes(service);
 
         return (
           <div

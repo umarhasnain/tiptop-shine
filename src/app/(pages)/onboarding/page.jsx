@@ -218,17 +218,24 @@ export default function OnboardingPage() {
     try {
       setLoading(true);
       const data = new FormData();
-      Object.entries(form).forEach(([k, v]) => { if (k !== 'documents') data.append(k, v) });
+      Object.entries(form).forEach(([k, v]) => {
+        if (k !== 'documents') data.append(k, v);
+      });
       data.append('serviceName', serviceName);
-      Object.entries(form.documents).forEach(([k, v]) => { if (v) data.append(k, v) });
+      Object.entries(form.documents).forEach(([k, v]) => {
+        if (v) data.append(k, v);
+      });
 
       const res = await fetch('/api/onboarding', { method: 'POST', body: data });
       if (!res.ok) throw new Error('Onboarding failed');
 
       localStorage.removeItem('selectedService');
       setShowSignup(true);
-    } catch (err) { alert(err.message || 'Something went wrong'); }
-    finally { setLoading(false); }
+    } catch (err) {
+      alert(err.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSignup = async () => {
@@ -249,6 +256,7 @@ export default function OnboardingPage() {
         timeSlots: form.timeSlots,
         workType: form.workType,
       };
+
       const res = await fetch('/api/auth/onboarding-signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -257,9 +265,15 @@ export default function OnboardingPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Signup failed');
 
+      // ✅ Save email in localStorage for dashboard login
+      localStorage.setItem('loggedInEmail', form.email);
+
       router.push('/general-dashboard');
-    } catch (err) { alert(err.message || 'Signup failed'); }
-    finally { setLoading(false); }
+    } catch (err) {
+      alert(err.message || 'Signup failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -279,94 +293,84 @@ export default function OnboardingPage() {
         {/* CONTENT */}
         <div className="p-8 space-y-6">
           {/* STEP 1 */}
-          {step === 1 && <>
-            <select className="input" value={form.miles} onChange={e => handleChange('miles', e.target.value)}>
-              {milesOptions.map(m => <option key={m}>{m}</option>)}
-            </select>
-            <input className="input" placeholder="Postcode" value={form.postcode} onChange={e => handleChange('postcode', e.target.value)} />
-            <button className="btn-primary w-full" disabled={!form.postcode} onClick={() => setStep(2)}>Continue</button>
-          </>}
+          {step === 1 && (
+            <>
+              <select className="input" value={form.miles} onChange={e => handleChange('miles', e.target.value)}>
+                {milesOptions.map(m => <option key={m}>{m}</option>)}
+              </select>
+              <input className="input" placeholder="Postcode" value={form.postcode} onChange={e => handleChange('postcode', e.target.value)} />
+              <button className="btn-primary w-full" disabled={!form.postcode} onClick={() => setStep(2)}>Continue</button>
+            </>
+          )}
 
           {/* STEP 2 */}
-          {step === 2 && <>
-            <input className="input" placeholder="Full Name" value={form.name} onChange={e => handleChange('name', e.target.value)} />
-            <input className="input" placeholder="Company Name" value={form.company} onChange={e => handleChange('company', e.target.value)} />
-            <input className="input" type="email" placeholder="Email Address" value={form.email} onChange={e => handleChange('email', e.target.value)} />
-            <input className="input" placeholder="Phone Number" value={form.phone} onChange={e => handleChange('phone', e.target.value)} />
+          {step === 2 && (
+            <>
+              <input className="input" placeholder="Full Name" value={form.name} onChange={e => handleChange('name', e.target.value)} />
+              <input className="input" placeholder="Company Name" value={form.company} onChange={e => handleChange('company', e.target.value)} />
+              <input className="input" type="email" placeholder="Email Address" value={form.email} onChange={e => handleChange('email', e.target.value)} />
+              <input className="input" placeholder="Phone Number" value={form.phone} onChange={e => handleChange('phone', e.target.value)} />
 
-            {/* <div className="flex flex-wrap gap-2 mt-2">
-              {companySizes.map(s => (
-                <button key={s} onClick={()=>handleChange('companySize',s)}
-                  className={`px-5 py-2 border rounded-full transition-all ${form.companySize===s?'bg-blue-600 text-white shadow-lg':'hover:bg-blue-100'}`}>{s}</button>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap gap-2 mt-2">
-              {yesNoOptions.map(o => (
-                <button key={o} onClick={()=>handleChange('hasWebsite',o)}
-                  className={`px-5 py-2 border rounded-full transition-all ${form.hasWebsite===o?'bg-blue-600 text-white shadow-lg':'hover:bg-blue-100'}`}>{o}</button>
-              ))}
-            </div>
-             */}
-
-            {/* COMPANY SIZE */}
-            <div className="mt-4">
-              <span className="text-sm font-medium text-gray-600 mb-1 block">Company Size</span>
-              <div className="flex flex-wrap gap-2 mt-1">
-                {companySizes.map(s => (
-                  <button key={s} onClick={() => handleChange('companySize', s)}
-                    className={`px-5 py-2 border rounded-full transition-all ${form.companySize === s ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-blue-100'}`}>
-                    {s}
-                  </button>
-                ))}
+              {/* COMPANY SIZE */}
+              <div className="mt-4">
+                <span className="text-sm font-medium text-gray-600 mb-1 block">Company Size</span>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {companySizes.map(s => (
+                    <button key={s} onClick={() => handleChange('companySize', s)}
+                      className={`px-5 py-2 border rounded-full transition-all ${form.companySize === s ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-blue-100'}`}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* HAS WEBSITE */}
-            <div className="mt-4">
-              <span className="text-sm font-medium text-gray-600 mb-1 block">Do you have a website?</span>
-              <div className="flex flex-wrap gap-2 mt-1">
-                {yesNoOptions.map(o => (
-                  <button key={o} onClick={() => handleChange('hasWebsite', o)}
-                    className={`px-5 py-2 border rounded-full transition-all ${form.hasWebsite === o ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-blue-100'}`}>
-                    {o}
-                  </button>
-                ))}
+              {/* HAS WEBSITE */}
+              <div className="mt-4">
+                <span className="text-sm font-medium text-gray-600 mb-1 block">Do you have a website?</span>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {yesNoOptions.map(o => (
+                    <button key={o} onClick={() => handleChange('hasWebsite', o)}
+                      className={`px-5 py-2 border rounded-full transition-all ${form.hasWebsite === o ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-blue-100'}`}>
+                      {o}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-
-            <button className="btn-primary w-full mt-4" disabled={!form.name || !form.email || !form.companySize || !form.hasWebsite} onClick={() => setStep(3)}>Continue</button>
-          </>}
+              <button className="btn-primary w-full mt-4" disabled={!form.name || !form.email || !form.companySize || !form.hasWebsite} onClick={() => setStep(3)}>Continue</button>
+            </>
+          )}
 
           {/* STEP 3 */}
-          {step === 3 && <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <select className="input" onChange={e => handleChange('availability', e.target.value)}>
-                <option value="">Availability</option>
-                {availabilityOptions.map(o => <option key={o}>{o}</option>)}
-              </select>
-              <select className="input" onChange={e => handleChange('timeSlots', e.target.value)}>
-                <option value="">Time Slot</option>
-                {timeSlotOptions.map(o => <option key={o}>{o}</option>)}
-              </select>
-              <select className="input" onChange={e => handleChange('workType', e.target.value)}>
-                <option value="">Work Type</option>
-                {workTypeOptions.map(o => <option key={o}>{o}</option>)}
-              </select>
-            </div>
+          {step === 3 && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <select className="input" onChange={e => handleChange('availability', e.target.value)}>
+                  <option value="">Availability</option>
+                  {availabilityOptions.map(o => <option key={o}>{o}</option>)}
+                </select>
+                <select className="input" onChange={e => handleChange('timeSlots', e.target.value)}>
+                  <option value="">Time Slot</option>
+                  {timeSlotOptions.map(o => <option key={o}>{o}</option>)}
+                </select>
+                <select className="input" onChange={e => handleChange('workType', e.target.value)}>
+                  <option value="">Work Type</option>
+                  {workTypeOptions.map(o => <option key={o}>{o}</option>)}
+                </select>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-              {['id', 'addressProof', 'businessLicense'].map(k => (
-                <label key={k} className="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
-                  <span className="text-sm text-gray-500 mb-2">{form.documents[k]?.name ? `Uploaded: ${form.documents[k].name}` : `Upload ${k}`}</span>
-                  <input type="file" className="hidden" onChange={e => handleFileChange(k, e.target.files[0])} />
-                </label>
-              ))}
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                {['id', 'addressProof', 'businessLicense'].map(k => (
+                  <label key={k} className="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                    <span className="text-sm text-gray-500 mb-2">{form.documents[k]?.name ? `Uploaded: ${form.documents[k].name}` : `Upload ${k}`}</span>
+                    <input type="file" className="hidden" onChange={e => handleFileChange(k, e.target.files[0])} />
+                  </label>
+                ))}
+              </div>
 
-            <button className="btn-primary w-full mt-4" disabled={!form.availability || !form.timeSlots || !form.workType} onClick={() => setStep(4)}>Continue</button>
-          </>}
+              <button className="btn-primary w-full mt-4" disabled={!form.availability || !form.timeSlots || !form.workType} onClick={() => setStep(4)}>Continue</button>
+            </>
+          )}
 
           {/* STEP 4 */}
           {step === 4 && (
@@ -375,16 +379,9 @@ export default function OnboardingPage() {
                 Almost done! Just one final step to complete your profile.
               </h1>
 
-              <button
-                className="btn-primary w-full mt-2"
-                onClick={submitForm}
-              >
-                Submit & Sign Up
-              </button>
+              <button className="btn-primary w-full mt-2" onClick={submitForm}>Submit & Sign Up</button>
             </>
           )}
-
-
         </div>
       </div>
 
@@ -401,66 +398,6 @@ export default function OnboardingPage() {
           </div>
         </div>
       )}
-
-      <style jsx>{`
-  .input { 
-    width:100%; 
-    padding:14px; 
-    border:1px solid #ccc; 
-    border-radius:12px; 
-    margin-top:10px; 
-    transition:border 0.3s, box-shadow 0.3s; 
-  }
-  .input:focus { 
-    border-color:#4f46e5; 
-    outline:none; 
-    box-shadow:0 0 12px rgba(79,70,229,0.3); 
-  }
-
-  .btn-primary { 
-    width:100%;
-    padding:14px; 
-    background: linear-gradient(90deg, #4f46e5, #094eff); /* gradient */
-    color:white; 
-    font-weight:600; 
-    border-radius:16px; 
-    border:none; 
-    box-shadow:0 4px 12px rgba(79,70,229,0.3); /* soft shadow */
-    text-align:center; 
-    transition: all 0.3s ease-in-out; 
-    cursor:pointer;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    left: -50%;
-    top: 0;
-    width: 200%;
-    height: 100%;
-    background: rgba(255,255,255,0.2);
-    transform: translateX(-100%) skewX(-20deg);
-    transition: all 0.5s;
-  }
-
-  .btn-primary:hover::after {
-    transform: translateX(100%) skewX(-20deg);
-  }
-
-  .btn-primary:hover { 
-    background: linear-gradient(90deg, #4338ca, #094eff); /* hover gradient */
-    box-shadow: 0 6px 16px rgba(79,70,229,0.4);
-  }
-
-  .btn-primary:disabled {
-    background: #094eff; 
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-`}</style>
-
     </div>
   );
 }

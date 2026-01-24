@@ -37,17 +37,17 @@ const handler = NextAuth({
     }),
 
     // ✉ Magic Link
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: 587,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
-    }),
+    // EmailProvider({
+    //   server: {
+    //     host: process.env.EMAIL_SERVER_HOST,
+    //     port: 587,
+    //     auth: {
+    //       user: process.env.EMAIL_SERVER_USER,
+    //       pass: process.env.EMAIL_SERVER_PASSWORD,
+    //     },
+    //   },
+    //   from: process.env.EMAIL_FROM,
+    // }),
   ],
 
   session: { strategy: "jwt" },

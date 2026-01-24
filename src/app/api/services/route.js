@@ -6,7 +6,7 @@ export async function POST(req) {
   await connectDB();
 
   await Professional.findByIdAndUpdate(userId, {
-    $addToSet: { selectedServices: service },
+    $addToSet: { serviceName: service },
   });
 
   return Response.json({ success: true });
@@ -17,7 +17,7 @@ export async function DELETE(req) {
   await connectDB();
 
   await Professional.findByIdAndUpdate(userId, {
-    $pull: { selectedServices: service },
+    $pull: { serviceName: service },
   });
 
   return Response.json({ success: true });

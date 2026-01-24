@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import RequestPopup from '@/components/RequestPopup';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import ServicesGrid from '@/components/ServicesGrid';
 
 export default function RequestSection() {
   const [showModal, setShowModal] = useState(false);
@@ -19,10 +20,10 @@ export default function RequestSection() {
   }, []);
 
   const suggestions = [
-    { title: 'Gardening', image: '/images/istockphoto-2207150736-612x612.webp' },
-    { title: 'Personal Trainer', image: '/images/istockphoto-2166986800-612x612.webp' },
-    { title: 'Web Design', image: '/images/istockphoto-2212360504-612x612.webp' },
-    { title: 'Cleaner', image: '/images/istockphoto-2172691408-612x612.webp' },
+    { title: 'Gardening', image: '/images/gardening.webp' },
+    { title: 'Personal Trainer', image: '/images/personal-trainer.webp' },
+    { title: 'Web Design', image: '/images/web-design.webp' },
+    { title: 'Cleaner', image: '/images/commercial-cleaning.jpeg' },
   ];
 
   return (
