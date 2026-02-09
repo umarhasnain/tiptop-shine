@@ -517,7 +517,6 @@
 //     </div>
 //   );
 // }
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -532,60 +531,66 @@ import {
 } from "@/components/dashboard";
 
 export default function DashboardPage() {
+
   const [professional, setProfessional] = useState(null);
   const [leads, setLeads] = useState([]);
 
+  // ✅ YAHAN ADD KARNA HAI
+  const loadProfessional = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) return;
+
+    const res = await fetch("/api/professionals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: user.email }),
+    });
+
+    const data = await res.json();
+    setProfessional(data.professional);
+  };
+
+  // ✅ YAHAN ADD KARNA HAI
   useEffect(() => {
-    fetch("/api/professionals")
-      .then((r) => r.json())
-      .then((d) => setProfessional(d.professional));
+    loadProfessional();
 
     fetch("/api/leads")
       .then((r) => r.json())
-      .then((d) => setLeads(d.leads));
+      .then((d) => setLeads(d.leads || []));
   }, []);
 
   if (!professional) return <p className="p-10">Loading...</p>;
 
-  const unreadLeads = leads.filter(l => l.status === "pending");
+  const unreadLeads = leads.filter((l) => l.status === "pending");
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto p-6 space-y-6">
 
-        {/* HEADER */}
         <div>
           <h1 className="text-2xl font-bold">
             Good morning, {professional.name || "Professional"}!
           </h1>
-          <p className="text-sm text-gray-500">
-            {new Date().toLocaleDateString("en-GB", {
-              weekday: "long",
-              day: "numeric",
-              month: "short",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
         </div>
 
-        {/* ALERT */}
-        <AlertBar />
+        {/* <AlertBar /> */}
 
-        {/* GRID */}
         <div className="grid lg:grid-cols-3 gap-6">
 
-          {/* LEFT */}
           <div className="space-y-6">
             <ProfileCard professional={professional} />
             <GetStartedCard />
             <HelpCard />
           </div>
 
-          {/* CENTER */}
-          <LeadSettingsCard professional={professional} />
+          <LeadSettingsCard
+            professional={professional}
+            refreshProfessional={loadProfessional}
+          />
 
-          {/* RIGHT */}
           <div className="space-y-6">
             <LeadsStatsCard
               total={leads.length}
