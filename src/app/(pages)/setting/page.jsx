@@ -87,6 +87,14 @@ export default function SettingsPage() {
       ],
     },
     {
+      title: "Lead Settings",
+      icon: <CreditCard className="w-5 h-5 text-green-500" />,
+      items: [
+        { label: "My services", desc: "Check Your Services, Review Your services." },
+        { label: "My locations", desc: "Access Your Location you provided in services." },
+      ]
+    },
+    {
       title: "Credits & Payments",
       icon: <CreditCard className="w-5 h-5 text-green-500" />,
       items: [
@@ -125,7 +133,7 @@ export default function SettingsPage() {
               <div className="space-y-3">
                 {section.items.map((item, i) => (
                   <div key={i}>
-                    <Link href="#" className="text-blue-600 hover:underline font-medium">
+                    <Link href={`/setting/${item.label}`} className="text-blue-600 hover:underline font-medium">
                       {item.label}
                     </Link>
                     <p className="text-gray-600 text-sm">{item.desc}</p>
