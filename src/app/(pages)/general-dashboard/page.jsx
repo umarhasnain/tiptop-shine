@@ -517,6 +517,8 @@
 //     </div>
 //   );
 // }
+
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -532,37 +534,91 @@ import {
 
 export default function DashboardPage() {
 
-  const [professional, setProfessional] = useState(null);
+  const [professional, setProfessional] = useState(undefined);
   const [leads, setLeads] = useState([]);
 
-  // ✅ YAHAN ADD KARNA HAI
+  console.log("getProfessional===> ", professional);
+  console.log("getleadsData===> ", leads);
+
+  // Load professional from MongoDB API
   const loadProfessional = async () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    try {
 
-    if (!user) return;
+      const email = localStorage.getItem("loggedInEmail");
+      console.log("lS Email===>", email);
 
-    const res = await fetch("/api/professionals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: user.email }),
-    });
+      if (!email) {
+        console.warn("User email not found in localStorage");
+        setProfessional({});
+        return;
+      }
 
-    const data = await res.json();
-    setProfessional(data.professional);
+      const res = await fetch(`/api/professionals`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch professionals");
+      }
+
+      const data = await res.json();
+
+      console.log("Professional API:", data);
+
+      // ✅ filter current user
+      const user = data?.professionals?.find(
+        (p) => p.email === email
+      );
+
+      if (user) {
+        setProfessional(user);
+      } else {
+        setProfessional({});
+      }
+
+    } catch (err) {
+      console.error("Error fetching professional:", err);
+      setProfessional({});
+    }
   };
 
-  // ✅ YAHAN ADD KARNA HAI
+  // Load leads from MongoDB API
+  const loadLeads = async () => {
+    try {
+
+      const email = localStorage.getItem("loggedInEmail");
+
+      const res = await fetch("/api/leads");
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch leads");
+      }
+
+      const data = await res.json();
+
+      // ✅ filter leads for this professional
+      const userLeads = data?.leads?.filter(
+        (lead) => lead.professionalEmail === email
+      );
+
+      setLeads(userLeads || []);
+
+    } catch (err) {
+      console.error("Error fetching leads:", err);
+      setLeads([]);
+    }
+  };
+
   useEffect(() => {
     loadProfessional();
-
-    fetch("/api/leads")
-      .then((r) => r.json())
-      .then((d) => setLeads(d.leads || []));
+    loadLeads();
   }, []);
 
-  if (!professional) return <p className="p-10">Loading...</p>;
+  if (professional === undefined) {
+    return (
+      <p className="p-10 text-center text-gray-500">
+        Loading...
+      </p>
+    );
+  }
 
   const unreadLeads = leads.filter((l) => l.status === "pending");
 
@@ -572,11 +628,9 @@ export default function DashboardPage() {
 
         <div>
           <h1 className="text-2xl font-bold">
-            Good morning, {professional.name || "Professional"}!
+            Good morning, {professional?.name || "Professional"}!
           </h1>
         </div>
-
-        {/* <AlertBar /> */}
 
         <div className="grid lg:grid-cols-3 gap-6">
 
@@ -600,6 +654,7 @@ export default function DashboardPage() {
           </div>
 
         </div>
+
       </div>
     </div>
   );

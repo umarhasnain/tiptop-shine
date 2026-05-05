@@ -21,9 +21,9 @@ export default function TiptopFooter() {
         <div>
           <h4 className="font-bold mb-3 text-lg sm:text-xl">For Customer</h4>
           <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
-            <li><a href="#" className="hover:text-blue-400 transition-colors">Find A Professional</a></li>
-            <li><a href="#" className="hover:text-blue-400 transition-colors">How it Works</a></li>
-            <li><a href="#" className="hover:text-blue-400 transition-colors">Login</a></li>
+            <li><a href="/services" className="hover:text-blue-400 transition-colors">Find A Professional</a></li>
+            <li><a href="/how-it-work" className="hover:text-blue-400 transition-colors">How it Works</a></li>
+            <li><a href="/login" className="hover:text-blue-400 transition-colors">Login</a></li>
             <li><a href="#" className="hover:text-blue-400 transition-colors">Mobile App</a></li>
           </ul>
         </div>
@@ -32,10 +32,10 @@ export default function TiptopFooter() {
         <div>
           <h4 className="font-bold mb-3 text-lg sm:text-xl">For Professional</h4>
           <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
-            <li><a href="#" className="hover:text-blue-400 transition-colors">How it Works</a></li>
-            <li><a href="#" className="hover:text-blue-400 transition-colors">Pricing</a></li>
-            <li><a href="#" className="hover:text-blue-400 transition-colors">Join As Professional</a></li>
-            <li><a href="#" className="hover:text-blue-400 transition-colors">Help Center</a></li>
+            <li><a href="/how-it-works" className="hover:text-blue-400 transition-colors">How it Works</a></li>
+            <li><a href="/pricing" className="hover:text-blue-400 transition-colors">Pricing</a></li>
+            <li><a href="/join-professional" className="hover:text-blue-400 transition-colors">Join As Professional</a></li>
+            <li><a href="/help-center" className="hover:text-blue-400 transition-colors">Help Center</a></li>
             <li><a href="#" className="hover:text-blue-400 transition-colors">Mobile App</a></li>
           </ul>
         </div>
@@ -44,8 +44,8 @@ export default function TiptopFooter() {
         <div>
           <h4 className="font-bold mb-3 text-lg sm:text-xl">About</h4>
           <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
-            <li><a href="#" className="hover:text-blue-400 transition-colors">About Tiptop Shine</a></li>
-            <li><a href="#" className="hover:text-blue-400 transition-colors">Careers</a></li>
+            <li><a href="/about" className="hover:text-blue-400 transition-colors">About Tiptop Shine</a></li>
+            <li><a href="/careers" className="hover:text-blue-400 transition-colors">Careers</a></li>
             <li><a href="#" className="hover:text-blue-400 transition-colors">Affiliates</a></li>
             <li><a href="#" className="hover:text-blue-400 transition-colors">Blog</a></li>
             <li><a href="#" className="hover:text-blue-400 transition-colors">Press</a></li>

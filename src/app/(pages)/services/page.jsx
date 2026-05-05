@@ -5,6 +5,8 @@ import Image from 'next/image';
 import serviceCategories from '@/lib/serviceCategories';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Link from 'next/link';
+import { slugify } from '@/lib/slugify';
 
 export default function AllServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -99,9 +101,12 @@ export default function AllServicesPage() {
               <span className="text-white text-xs mt-1 inline-block bg-blue px-2 py-1 rounded-md">
                 {svc.category}
               </span>
+              <Link href={`/services/${slugify(svc.name)}`}>
+              
               <button className="mt-3 px-4 py-2 bg- bg-[#326BFD] hover:bg-blue-700 text-white rounded-md text-sm shadow-lg transition w-full text-center">
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
         ))}

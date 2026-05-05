@@ -1,80 +1,378 @@
+
+
 // 'use client';
 
 // import Image from 'next/image';
-// import { useSearchParams } from 'next/navigation';
+// import { useEffect, useState } from 'react';
+// import { useParams } from 'next/navigation';
 // import serviceCategories from '@/lib/serviceCategories';
 // import { slugify } from '@/lib/slugify';
+// import Link from 'next/link';
 
-// export default function ServiceDetail({ params }) {
-//   const { slug } = params;
-//   const searchParams = useSearchParams();
-//   const categorySlug = searchParams.get('category');
+// export default function ServiceDetail() {
 
+//   const params = useParams();
+//   const slug = params?.slug;
+
+//   const [professionals, setProfessionals] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   // 🔹 Find service using slug
 //   const service = serviceCategories.find(
 //     (s) => slugify(s.name) === slug
 //   );
 
+//   useEffect(() => {
+
+//     if (!service) return;
+
+//     async function fetchProfessionals() {
+
+//       try {
+
+//         const res = await fetch('/api/professionals');
+//         const data = await res.json();
+
+//         if (data?.success) {
+
+//           const filtered = data.professionals.filter(
+//             (pro) => pro?.serviceName?.includes(service?.name)
+//           );
+
+//           setProfessionals(filtered);
+
+//         }
+
+//       } catch (err) {
+
+//         console.error(err);
+
+//       } finally {
+
+//         setLoading(false);
+
+//       }
+
+//     }
+
+//     fetchProfessionals();
+
+//   }, [service]);
+
+
 //   if (!service) {
-//     return <div className="p-10 text-center">Service not found</div>;
+//     return (
+//       <div className="py-20 text-center text-gray-500">
+//         Service not found
+//       </div>
+//     );
 //   }
 
-//   const relatedServices = serviceCategories.filter(
-//     (s) =>
-//       slugify(s.category) === categorySlug &&
-//       slugify(s.name) !== slug
-//   );
-
 //   return (
-//     <section className="px-6 md:px-20 py-16">
+//     <section className="bg-gradient-to-b from-gray-50 to-white px-6 md:px-20 py-16">
 
-//       {/* Main Service */}
-//       <div className="grid md:grid-cols-2 gap-10 mb-20">
+//       {/* SERVICE HERO */}
+//       <div className="grid lg:grid-cols-2 gap-14 mb-24">
+
 //         <Image
 //           src={service.image}
 //           alt={service.name}
-//           width={600}
-//           height={400}
-//           className="rounded-xl object-cover"
+//           width={700}
+//           height={450}
+//           className="rounded-2xl object-cover shadow-xl"
 //         />
 
 //         <div>
-//           <h1 className="text-4xl font-bold mb-4">{service.name}</h1>
-//           <p className="text-gray-600 mb-6">{service.description}</p>
+//           <span className="inline-block mb-3 px-4 py-1 text-sm bg-blue-100 text-blue-700 rounded-full">
+//             {service.category}
+//           </span>
 
-//           <button className="px-6 py-3 bg-[#094eff] text-white rounded-md">
-//             Get Free Quotes
-//           </button>
+//           <h1 className="text-4xl font-extrabold mb-4">
+//             {service.name}
+//           </h1>
+
+//           <p className="text-gray-600 text-lg mb-8">
+//             {service.description}
+//           </p>
+
+//           <Link
+//             href={`/request-quote?service=${slug}`}
+//           >
+//             <button className="px-8 py-4 bg-[#094eff] hover:bg-blue-700 text-white rounded-xl text-lg font-semibold shadow-lg">
+//               Get Free Quotes
+//             </button>
+//           </Link>
 //         </div>
+
 //       </div>
 
-//       {/* Related Services */}
+//       {/* PROFESSIONALS */}
 //       <div>
-//         <h2 className="text-3xl font-bold mb-8">
-//           More {service.category} Services
+
+//         <h2 className="text-3xl font-bold mb-10">
+//           {service?.name} Professionals Near You
 //         </h2>
 
-//         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-//           {relatedServices.map((svc, idx) => (
-//             <div
-//               key={idx}
-//               className="border rounded-lg overflow-hidden hover:shadow-lg transition"
-//             >
-//               <Image
-//                 src={svc.image}
-//                 alt={svc.name}
-//                 width={300}
-//                 height={200}
-//                 className="h-44 w-full object-cover"
-//               />
-//               <div className="p-4">
-//                 <h3 className="font-semibold">{svc.name}</h3>
-//                 <p className="text-sm text-gray-600 line-clamp-2">
-//                   {svc.description}
-//                 </p>
+//         {loading ? (
+//           <p className="text-gray-500">Loading professionals...</p>
+//         ) : professionals.length === 0 ? (
+//           <p className="text-gray-500">
+//             No professionals available for this service.
+//           </p>
+//         ) : (
+
+//           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+//             {professionals.map((pro) => (
+
+//               <div
+//                 key={pro._id}
+//                 className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition"
+//               >
+
+//                 <div className="flex items-center gap-4 mb-4">
+
+//                   <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-700">
+//                     {pro.name?.charAt(0)}
+//                   </div>
+
+//                   <div>
+//                     <h3 className="font-semibold text-lg">
+//                       {pro.name}
+//                     </h3>
+//                     <p className="text-sm text-gray-500">
+//                       {pro.company}
+//                     </p>
+//                   </div>
+
+//                 </div>
+
+//                 <div className="space-y-2 text-sm text-gray-600 mb-5">
+//                   <p>📍 {pro.postcode} · {pro.miles}</p>
+//                   <p>🕒 {pro.availability}</p>
+//                   <p>👥 Company Size: {pro.companySize}</p>
+//                   <p>💼 Work Type: {pro.workType}</p>
+//                 </div>
+
+//                 <div className="flex flex-wrap gap-2 mb-6">
+
+//                   <span className="text-xs px-3 py-1 bg-gray-100 rounded-full">
+//                     {pro.timeSlots}
+//                   </span>
+
+//                   {pro.hasWebsite === 'Yes' && (
+//                     <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full">
+//                       Has Website
+//                     </span>
+//                   )}
+
+//                 </div>
+
+//                 <Link href={`/request-quote?service=${slug}`}>
+//                   <button className="w-full py-3 bg-[#326BFD] hover:bg-blue-700 text-white rounded-lg font-medium">
+//                     Request Quote
+//                   </button>
+//                 </Link>
+
 //               </div>
-//             </div>
-//           ))}
+
+//             ))}
+
+//           </div>
+//         )}
+
+//       </div>
+
+//     </section>
+//   );
+// }
+
+
+// 'use client';
+
+// import Image from 'next/image';
+// import { useEffect, useState } from 'react';
+// import { useParams } from 'next/navigation';
+// import serviceCategories from '@/lib/serviceCategories';
+// import { slugify } from '@/lib/slugify';
+// import Link from 'next/link';
+
+// export default function ServiceDetail() {
+
+//   const params = useParams();
+//   const slug = params?.slug;
+
+//   const [professionals, setProfessionals] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   // 🔹 Find service using slug
+//   const service = serviceCategories.find(
+//     (s) => slugify(s.name) === slug
+//   );
+
+//   useEffect(() => {
+
+//     if (!service) return;
+
+//     async function fetchProfessionals() {
+
+//       try {
+
+//         const res = await fetch('/api/professionals');
+//         const data = await res.json();
+
+//         if (data?.success) {
+
+//           const filtered = data.professionals.filter(
+//             (pro) => pro?.serviceName?.includes(service?.name)
+//           );
+
+//           setProfessionals(filtered);
+
+//         }
+
+//       } catch (err) {
+
+//         console.error(err);
+
+//       } finally {
+
+//         setLoading(false);
+
+//       }
+
+//     }
+
+//     fetchProfessionals();
+
+//   }, [service]);
+
+
+//   if (!service) {
+//     return (
+//       <div className="py-20 text-center text-gray-500">
+//         Service not found
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <section className="bg-gradient-to-b from-gray-50 to-white px-6 md:px-20 py-16">
+
+//       {/* SERVICE HERO */}
+//       <div className="grid lg:grid-cols-2 gap-14 mb-24">
+
+//         <Image
+//           src={service.image}
+//           alt={service.name}
+//           width={700}
+//           height={450}
+//           className="rounded-2xl object-cover shadow-xl"
+//         />
+
+//         <div>
+//           <span className="inline-block mb-3 px-4 py-1 text-sm bg-blue-100 text-blue-700 rounded-full">
+//             {service.category}
+//           </span>
+
+//           <h1 className="text-4xl font-extrabold mb-4">
+//             {service.name}
+//           </h1>
+
+//           <p className="text-gray-600 text-lg mb-8">
+//             {service.description}
+//           </p>
+
+//           {/* 🔥 Global Request (without selecting pro) */}
+//           <Link
+//             href={`/request-quote?service=${slug}`}
+//           >
+//             <button className="px-8 py-4 bg-[#094eff] hover:bg-blue-700 text-white rounded-xl text-lg font-semibold shadow-lg">
+//               Get Free Quotes
+//             </button>
+//           </Link>
 //         </div>
+
+//       </div>
+
+//       {/* PROFESSIONALS */}
+//       <div>
+
+//         <h2 className="text-3xl font-bold mb-10">
+//           {service?.name} Professionals Near You
+//         </h2>
+
+//         {loading ? (
+//           <p className="text-gray-500">Loading professionals...</p>
+//         ) : professionals.length === 0 ? (
+//           <p className="text-gray-500">
+//             No professionals available for this service.
+//           </p>
+//         ) : (
+
+//           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+//             {professionals.map((pro) => (
+
+//               <div
+//                 key={pro._id}
+//                 className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition duration-300"
+//               >
+
+//                 <div className="flex items-center gap-4 mb-4">
+
+//                   <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-700">
+//                     {pro.name?.charAt(0)}
+//                   </div>
+
+//                   <div>
+//                     <h3 className="font-semibold text-lg">
+//                       {pro.name}
+//                     </h3>
+//                     <p className="text-sm text-gray-500">
+//                       {pro.company}
+//                     </p>
+//                   </div>
+
+//                 </div>
+
+//                 <div className="space-y-2 text-sm text-gray-600 mb-5">
+//                   <p>📍 {pro.postcode} · {pro.miles}</p>
+//                   <p>🕒 {pro.availability}</p>
+//                   <p>👥 Company Size: {pro.companySize}</p>
+//                   <p>💼 Work Type: {pro.workType}</p>
+//                 </div>
+
+//                 <div className="flex flex-wrap gap-2 mb-6">
+
+//                   <span className="text-xs px-3 py-1 bg-gray-100 rounded-full">
+//                     {pro.timeSlots}
+//                   </span>
+
+//                   {pro.hasWebsite === 'Yes' && (
+//                     <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full">
+//                       Has Website
+//                     </span>
+//                   )}
+
+//                 </div>
+
+//                 {/* ✅ IMPORTANT UPDATE HERE */}
+//                 <Link
+//                   href={`/request-quote?service=${slug}&proId=${pro._id}&proName=${encodeURIComponent(pro.name)}&company=${encodeURIComponent(pro.company)}`}
+//                 >
+//                   <button className="w-full py-3 bg-[#326BFD] hover:bg-blue-700 text-white rounded-lg font-medium transition">
+//                     Request Quote
+//                   </button>
+//                 </Link>
+
+//               </div>
+
+//             ))}
+
+//           </div>
+//         )}
+
 //       </div>
 
 //     </section>
@@ -84,50 +382,91 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
 import serviceCategories from '@/lib/serviceCategories';
 import { slugify } from '@/lib/slugify';
+import Link from 'next/link';
 
-export default function ServiceDetail({ params }) {
-  const { slug } = params;
+export default function ServiceDetail() {
+  const params = useParams();
+  const searchParams = useSearchParams();
+
+  const slug = params?.slug;
+  const postcode = searchParams.get("postcode");
 
   const [professionals, setProfessionals] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔹 current service find from slug
-  const service = serviceCategories.find(
-    (s) => slugify(s.name) === slug
-  );
+  // 🔹 Find service using slug
+  const service = useMemo(() => {
+    return serviceCategories.find(
+      (s) => slugify(s.name) === slug
+    );
+  }, [slug]);
 
   useEffect(() => {
     if (!service) return;
 
     async function fetchProfessionals() {
       try {
+        setLoading(true);
         const res = await fetch('/api/professionals');
         const data = await res.json();
 
-        if (data.success) {
-          // 🔥 FILTER BY serviceName
-          const filtered = data.professionals.filter(
-            (pro) => pro.serviceName === service.name
-          );
+        if (data?.success && Array.isArray(data.professionals)) {
+
+          // 🔹 FILTER BY SERVICE NAME OR CATEGORY
+          let filtered = data.professionals.filter((pro) => {
+            if (!pro?.serviceName) return false;
+
+            const serviceNameLower = service.name.toLowerCase();
+            const serviceCategoryLower = service.category.toLowerCase();
+
+            // ServiceName can be string or array
+            if (Array.isArray(pro.serviceName)) {
+              return pro.serviceName.some(
+                (srv) => srv?.toLowerCase().trim() === serviceNameLower ||
+                         srv?.toLowerCase().trim() === serviceCategoryLower
+              );
+            }
+
+            if (typeof pro.serviceName === "string") {
+              return pro.serviceName.toLowerCase().includes(serviceNameLower) ||
+                     pro.serviceName.toLowerCase().includes(serviceCategoryLower);
+            }
+
+            return false;
+          });
+
+          // 🔹 POSTCODE FILTER (optional)
+          if (postcode) {
+            const userPostcode = postcode.replace(/\s+/g, "").toLowerCase();
+            const postcodeFiltered = filtered.filter((pro) => {
+              if (!pro.postcode) return false;
+              const dbPostcode = pro.postcode.replace(/\s+/g, "").toLowerCase();
+              return dbPostcode.includes(userPostcode);
+            });
+            // Fallback: if no match, show service results anyway
+            filtered = postcodeFiltered.length > 0 ? postcodeFiltered : filtered;
+          }
 
           setProfessionals(filtered);
         }
       } catch (err) {
-        console.error(err);
+        console.error("Professional fetch error:", err);
       } finally {
         setLoading(false);
       }
     }
 
     fetchProfessionals();
-  }, [service]);
+
+  }, [service, postcode]);
 
   if (!service) {
     return (
-      <div className="py-20 text-center text-gray-500">
+      <div className="py-32 text-center text-gray-500 text-lg">
         Service not found
       </div>
     );
@@ -136,84 +475,95 @@ export default function ServiceDetail({ params }) {
   return (
     <section className="bg-gradient-to-b from-gray-50 to-white px-6 md:px-20 py-16">
 
-      {/* ================= SERVICE HERO ================= */}
-      <div className="grid lg:grid-cols-2 gap-14 mb-24">
+      {/* ===== SERVICE HERO ===== */}
+      <div className="grid lg:grid-cols-2 gap-16 mb-24 items-center">
         <Image
           src={service.image}
           alt={service.name}
           width={700}
           height={450}
-          className="rounded-2xl object-cover shadow-xl"
+          className="rounded-3xl object-cover shadow-2xl"
         />
-
         <div>
-          <span className="inline-block mb-3 px-4 py-1 text-sm bg-blue-100 text-blue-700 rounded-full">
+          <span className="inline-block mb-4 px-4 py-1 text-sm bg-blue-100 text-blue-700 rounded-full font-medium">
             {service.category}
           </span>
 
-          <h1 className="text-4xl font-extrabold mb-4">
+          <h1 className="text-5xl font-extrabold mb-6 leading-tight">
             {service.name}
           </h1>
 
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="text-gray-600 text-lg mb-8 leading-relaxed">
             {service.description}
           </p>
 
-          <button className="px-8 py-4 bg-[#094eff] hover:bg-blue-700 text-white rounded-xl text-lg font-semibold shadow-lg">
-            Get Free Quotes
-          </button>
+          <Link
+            href={`/request-page?service=${encodeURIComponent(service.name)}`}
+          >
+            <button className="px-8 py-4 bg-[#094eff] hover:bg-blue-700 text-white rounded-xl text-lg font-semibold shadow-lg transition duration-300">
+              Get Free Quotes
+            </button>
+          </Link>
         </div>
       </div>
 
-      {/* ================= PROFESSIONALS ================= */}
+      {/* ===== PROFESSIONALS SECTION ===== */}
       <div>
-        <h2 className="text-3xl font-bold mb-10">
-          {service.name} Professionals Near You
-        </h2>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4">
+          <h2 className="text-3xl font-bold">
+            {service.name} Professionals Near You
+          </h2>
+
+          <div className="text-sm text-gray-500">
+            {postcode && (
+              <span>
+                Postcode: <b>{postcode}</b>
+              </span>
+            )}
+            <span className="ml-4">{professionals.length} Found</span>
+          </div>
+        </div>
 
         {loading ? (
-          <p className="text-gray-500">Loading professionals...</p>
+          <div className="text-center py-20 text-gray-500">
+            Loading professionals...
+          </div>
         ) : professionals.length === 0 ? (
-          <p className="text-gray-500">
-            No professionals available for this service.
-          </p>
+          <div className="text-center py-20 bg-gray-50 rounded-2xl border">
+            <p className="text-gray-500 text-lg">
+              No professionals available for this service.
+            </p>
+          </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {professionals.map((pro) => (
               <div
                 key={pro._id}
-                className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition"
+                className="bg-white rounded-3xl p-6 shadow-md hover:shadow-2xl transition duration-300 border border-gray-100"
               >
-                {/* Header */}
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-700">
-                    {pro.name?.charAt(0)}
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-700 text-lg">
+                    {pro.name?.charAt(0)?.toUpperCase()}
                   </div>
-
                   <div>
-                    <h3 className="font-semibold text-lg">
-                      {pro.name}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {pro.company}
-                    </p>
+                    <h3 className="font-semibold text-lg">{pro.name}</h3>
+                    <p className="text-sm text-gray-500">{pro.company}</p>
                   </div>
                 </div>
 
-                {/* Details */}
-                <div className="space-y-2 text-sm text-gray-600 mb-5">
-                  <p>📍 {pro.postcode} · {pro.miles}</p>
+                <div className="space-y-2 text-sm text-gray-600 mb-6">
+                  <p>📍 {pro.postcode}</p>
                   <p>🕒 {pro.availability}</p>
                   <p>👥 Company Size: {pro.companySize}</p>
                   <p>💼 Work Type: {pro.workType}</p>
                 </div>
 
-                {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="text-xs px-3 py-1 bg-gray-100 rounded-full">
-                    {pro.timeSlots}
-                  </span>
-
+                  {pro.timeSlots && (
+                    <span className="text-xs px-3 py-1 bg-gray-100 rounded-full">
+                      {pro.timeSlots}
+                    </span>
+                  )}
                   {pro.hasWebsite === 'Yes' && (
                     <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full">
                       Has Website
@@ -221,10 +571,17 @@ export default function ServiceDetail({ params }) {
                   )}
                 </div>
 
-                {/* CTA */}
-                <button className="w-full py-3 bg-[#326BFD] hover:bg-blue-700 text-white rounded-lg font-medium">
-                  Request Quote
-                </button>
+                <Link
+                  href={`/request-page?service=${encodeURIComponent(
+                    service.name
+                  )}&proId=${pro._id}&proName=${encodeURIComponent(
+                    pro.name
+                  )}&company=${encodeURIComponent(pro.company)}`}
+                >
+                  <button className="w-full py-3 bg-[#326BFD] hover:bg-blue-700 text-white rounded-xl font-semibold transition duration-300">
+                    Request Quote
+                  </button>
+                </Link>
               </div>
             ))}
           </div>
