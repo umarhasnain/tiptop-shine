@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
   }, []);
 
   // Pages jahan upar wala header nahi dikhana (black login wala)
-  const hideHeaderOn = ["/general-dashboard","/myresponse", "/leads","/setting","/profile","/helpdashboard"]; // example
+  const hideHeaderOn = ["/general-dashboard","/myresponse", "/leads","/setting","/profile","/helpdashboard","/subscription"]; 
 
   return (
     <html lang="en">

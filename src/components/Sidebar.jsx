@@ -3,7 +3,7 @@ import React from "react";
 export default function Sidebar({ selectedTab, setSelectedTab }) {
   return (
     <div className="w-1/4 bg-gray-900 text-white h-screen p-6">
-      <h2 className="text-2xl font-bold mb-8">Dashboard</h2>
+      {/* <h2 className="text-2xl font-bold mb-8">Dashboard</h2> */}
 
       <div className="space-y-4">
         <button

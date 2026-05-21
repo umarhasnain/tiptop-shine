@@ -1,29 +1,33 @@
-// import mongoose from 'mongoose';
+
+// import mongoose from "mongoose";
 
 // const ProfessionalSchema = new mongoose.Schema(
 //   {
 //     serviceName: {
-//       type: String,
-//       required: true,
+//       type: [String],
+//       default: [],
 //     },
+
 //     miles: String,
 //     postcode: String,
 //     name: String,
 //     company: String,
 //     email: { type: String, required: true },
 //     phone: String,
+
 //     hasWebsite: String,
 //     companySize: String,
 //     availability: String,
 //     timeSlots: String,
 //     workType: String,
+
 //     documents: Object,
 //   },
 //   { timestamps: true }
 // );
 
 // export default mongoose.models.Professional ||
-//   mongoose.model('Professional', ProfessionalSchema);
+//   mongoose.model("Professional", ProfessionalSchema);
 
 
 import mongoose from "mongoose";
@@ -31,8 +35,7 @@ import mongoose from "mongoose";
 const ProfessionalSchema = new mongoose.Schema(
   {
     serviceName: {
-      type: [String], // 👈 MULTIPLE SERVICES
-      required: true,
+      type: [String],
       default: [],
     },
 
@@ -40,8 +43,21 @@ const ProfessionalSchema = new mongoose.Schema(
     postcode: String,
     name: String,
     company: String,
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     phone: String,
+
+    credits: {
+      type: Number,
+      default: 0,
+    },
+
+    subscription: {
+      plan: {
+        type: String,
+        default: "Free",
+      },
+      expiresAt: Date,
+    },
 
     hasWebsite: String,
     companySize: String,
