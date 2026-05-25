@@ -79,38 +79,38 @@ export default function SettingsPage() {
       title: "My Profile",
       icon: <User className="w-5 h-5 text-blue-500" />,
       items: [
-        { label: "My Profile", desc: "Your Profile Showcases Your Strengths. Highlight What Sets You Apart And Why Clients Should Choose Your Service." },
-        { label: "Reviews", desc: "All Your Customer Feedback, Gathered In One Easy-To-Access Spot." },
-        { label: "Premium Status", desc: "Boost Your Visibility And Earn More Trust With Our Premium Pro Features." },
-        { label: "Recognition Badges", desc: "Earn Badges To Stand Out—Discover How They Can Enhance Your Credibility And Attract More Clients." },
-        { label: "Account Info", desc: "Manage Your Login Email, Password, And Contact Numbers Securely From Here." },
+        { slug:"my-profile", label: "My Profile", desc: "Your Profile Showcases Your Strengths. Highlight What Sets You Apart And Why Clients Should Choose Your Service." },
+        // { slug:"reviews", label: "Reviews", desc: "All Your Customer Feedback, Gathered In One Easy-To-Access Spot." },
+        // { slug:"premium-status", label: "Premium Status", desc: "Boost Your Visibility And Earn More Trust With Our Premium Pro Features." },
+        // { slug:"recognition-badges", label: "Recognition Badges", desc: "Earn Badges To Stand Out—Discover How They Can Enhance Your Credibility And Attract More Clients." },
+        { slug:"account-info", label: "Account Info", desc: "Manage Your Login Email, Password, And Contact Numbers Securely From Here." },
       ],
     },
     {
       title: "Lead Settings",
       icon: <CreditCard className="w-5 h-5 text-green-500" />,
       items: [
-        { label: "My services", desc: "Check Your Services, Review Your services." },
-        { label: "My locations", desc: "Access Your Location you provided in services." },
+        { slug:"my-services", label: "My services", desc: "Check Your Services, Review Your services." },
+        { slug:"my-services", label: "My locations", desc: "Access Your Location you provided in services." },
       ]
     },
     {
       title: "Credits & Payments",
       icon: <CreditCard className="w-5 h-5 text-green-500" />,
       items: [
-        { label: "My Credits", desc: "Check Your Credit Balance, Review Your History, And Purchase More To Connect With New Customers." },
-        { label: "Invoices & Billing", desc: "Access Your Invoices And Keep Your Billing Information Up To Date." },
-        { label: "Payment Settings", desc: "Manage Your Saved Payment Methods And Preferences Securely." },
+        { slug:"my-credits", label: "My Credits", desc: "Check Your Credit Balance, Review Your History, And Purchase More To Connect With New Customers." },
+        { slug:"invoices-billing", label: "Invoices & Billing", desc: "Access Your Invoices And Keep Your Billing Information Up To Date." },
+        { slug:"payment-settings", label: "Payment Settings", desc: "Manage Your Saved Payment Methods And Preferences Securely." },
       ],
     },
-    {
-      title: "Notifications",
-      icon: <Bell className="w-5 h-5 text-purple-500" />,
-      items: [
-        { label: "Email Preferences", desc: "Choose Which Types Of Emails You Want To Get From Us." },
-        { label: "Browser Alerts", desc: "Control The Notifications You Receive While Using Your Web Browser." },
-      ],
-    },
+    // {
+    //   title: "Notifications",
+    //   icon: <Bell className="w-5 h-5 text-purple-500" />,
+    //   items: [
+    //     { slug:"email-preferences", label: "Email Preferences", desc: "Choose Which Types Of Emails You Want To Get From Us." },
+    //     { slug:"browser-alerts", label: "Browser Alerts", desc: "Control The Notifications You Receive While Using Your Web Browser." },
+    //   ],
+    // },
   ];
 
   return (
@@ -133,7 +133,7 @@ export default function SettingsPage() {
               <div className="space-y-3">
                 {section.items.map((item, i) => (
                   <div key={i}>
-                    <Link href={`/setting/${item.label}`} className="text-blue-600 hover:underline font-medium">
+                    <Link href={`/setting/${item?.slug}`} className="text-blue-600 hover:underline font-medium">
                       {item.label}
                     </Link>
                     <p className="text-gray-600 text-sm">{item.desc}</p>
