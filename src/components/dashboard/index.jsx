@@ -578,12 +578,15 @@ import { useEffect, useState } from "react";
 /* ================= ALERT ================= */
 export function AlertBar() {
   return (
-    <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl flex justify-between items-center text-sm shadow-sm">
-      <span>You're not receiving our emails</span>
-      <button className="font-semibold underline hover:text-red-900 transition">
-        Update email settings
-      </button>
+    <div>
+
     </div>
+    // <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl flex justify-between items-center text-sm shadow-sm">
+    //   {/* <span>You're not receiving our emails</span>
+    //   <button className="font-semibold underline hover:text-red-900 transition">
+    //     Update email settings
+    //   </button> */}
+    // </div>
   );
 }
 
