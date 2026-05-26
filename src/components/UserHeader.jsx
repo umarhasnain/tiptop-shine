@@ -422,7 +422,7 @@ export default function UserHeader() {
           left-0
           right-0
           w-full
-          h-[78px]
+          h-[100px]
           bg-black/95
           backdrop-blur-xl
           border-b

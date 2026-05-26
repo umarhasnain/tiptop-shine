@@ -615,7 +615,7 @@ export function ProfileCard({ professional }) {
         </div>
       </div>
 
-      <Link href="/profile-setting">
+      <Link href="/setting/my-profile">
         <button className="mt-5 text-blue-600 text-sm font-semibold hover:underline">
           Edit profile →
         </button>
@@ -1121,9 +1121,12 @@ export function GetStartedCard() {
       <p className="text-sm text-gray-600">
         Respond to up to 10 customers instantly.
       </p>
-      <button className="text-blue-600 text-sm mt-3 font-semibold hover:underline">
-        Learn more →
-      </button>
+      <Link href="/subscription">
+        <button className="text-blue-600 text-sm mt-3 font-semibold hover:underline">
+          Learn more →
+        </button>
+      </Link>
+ 
     </div>
   );
 }
@@ -1132,7 +1135,7 @@ export function GetStartedCard() {
 export function HelpCard() {
   return (
     <div className="bg-white rounded-3xl shadow-lg p-6">
-      <Link href="/help-center">
+      <Link href="/helpdashboard">
         <h2 className="font-semibold mb-2 cursor-pointer">
           Help Center
         </h2>
